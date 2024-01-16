@@ -6,6 +6,12 @@ vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
 
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
+vim.opt.smartindent = true
 vim.opt.updatetime = 50
 --[[
 
@@ -666,5 +672,6 @@ vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { noremap = true, silent = true
 vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { noremap = true, silent = true, desc = "Prev buffer" })
 vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>", { noremap = true, silent = true, desc = "Next buffer" })
 
+vim.keymap.set("n", "<leader>zm", "<cmd>ZenMode<CR>", { noremap = true, silent = true, desc = "Zen Mode" })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
