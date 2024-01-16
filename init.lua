@@ -1,3 +1,12 @@
+-- base config
+vim.opt.nu = true
+vim.opt.relativenumber = true
+vim.opt.incsearch = true
+vim.opt.termguicolors = true
+
+vim.opt.scrolloff = 8
+
+vim.opt.updatetime = 50
 --[[
 
 =====================================================================
@@ -88,7 +97,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -110,8 +119,8 @@ require('lazy').setup({
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
     },
-     opts = function()
-        local has_words_before = function()
+    opts = function()
+      local has_words_before = function()
         unpack = unpack or table.unpack
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
@@ -120,7 +129,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -144,21 +153,6 @@ require('lazy').setup({
       vim.cmd.colorscheme 'onedark'
     end,
   },
-
-  {
-    -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
-    -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = true,
-        theme = 'onedark',
-        component_separators = '|',
-        section_separators = '',
-      },
-    },
-  },
-
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
@@ -216,7 +210,8 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 }, {})
 vim.opt.background = "dark" -- set this to dark or light
-vim.cmd.colorscheme "oxocarbon"
+
+vim.cmd.colorscheme "catppuccin-macchiato"
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -276,13 +271,15 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 
 
 -- my remaps
-vim.keymap.set("i", "<C-b>", "<Cmd>lua Scroll('<ESC>^i', 1, 1)<CR>")
-vim.keymap.set("i", "<C-e>", "<Cmd>lua Scroll('<End>', 1, 1)<CR>")
+vim.keymap.set("i", "<C-b>", "<ESC>^i")
+vim.keymap.set("i", "<C-e>", "<End>")
 
-vim.keymap.set("i", "<C-h>", "<Cmd>lua Scroll('<Left>', 1, 1)<CR>")
-vim.keymap.set("i", "<C-l>", "<Cmd>lua Scroll('<Right>', 1, 1)<CR>")
-vim.keymap.set("i", "<C-j>", "<Cmd>lua Scroll('<Down>', 1, 1)<CR>")
-vim.keymap.set("i", "<C-k>", "<Cmd>lua Scroll('<Up>', 1, 1)<CR>")
+vim.keymap.set("i", "<C-h>", "<Left>")
+vim.keymap.set("i", "<C-l>", "<Right>")
+vim.keymap.set("i", "<C-j>", "<Down>")
+vim.keymap.set("i", "<C-k>", "<Up>")
+
+vim.keymap.set({ "n", "i" }, "<C-s>", "<Cmd> w <CR>")
 
 vim.keymap.set("n", ";", ":")
 -- split windows
@@ -291,8 +288,6 @@ vim.keymap.set({ "n" }, "<leader>vs", "<cmd> vsplit <CR>")
 vim.keymap.set("x", "p", 'p:let @+=@0<CR>:let @"=@0<CR>')
 
 vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "<Cmd>lua Scroll('<C-d>zz', 1, 1)<CR>")
-vim.keymap.set("n", "<C-u>", "<Cmd>lua Scroll('<C-u>zz', 1, 1)<CR>")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
@@ -504,7 +499,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-K>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  --  nmap('<C-K>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -610,6 +605,7 @@ cmp.setup {
   completion = {
     completeopt = 'menu,menuone,noinsert',
   },
+  preselect = cmp.PreselectMode.None,
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -646,6 +642,32 @@ cmp.setup {
     { name = 'path' },
   },
 }
+
+-- Move to window using the <ctrl> hjkl keys
+vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true, desc = "Go to left window" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true, desc = "Go to lower window" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true, desc = "Go to upper window" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true, desc = "Go to right window" })
+
+-- Resize window using <ctrl> arrow keys
+vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { noremap = true, silent = true, desc = "Increase window height" })
+vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { noremap = true, silent = true, desc = "Decrease window height" })
+vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>",
+  { noremap = true, silent = true, desc = "Decrease window width" })
+vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>",
+  { noremap = true, silent = true, desc = "Increase window width" })
+
+-- Move Lines
+vim.keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { noremap = true, silent = true, desc = "Move down" })
+vim.keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { noremap = true, silent = true, desc = "Move up" })
+vim.keymap.set("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { noremap = true, silent = true, desc = "Move down" })
+vim.keymap.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { noremap = true, silent = true, desc = "Move up" })
+vim.keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { noremap = true, silent = true, desc = "Move down" })
+vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { noremap = true, silent = true, desc = "Move up" })
+
+-- buffers
+vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { noremap = true, silent = true, desc = "Prev buffer" })
+vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>", { noremap = true, silent = true, desc = "Next buffer" })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
