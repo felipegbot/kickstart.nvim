@@ -146,14 +146,6 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
-  },
-  {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
@@ -283,7 +275,7 @@ vim.keymap.set("i", "<C-l>", "<Right>")
 vim.keymap.set("i", "<C-j>", "<Down>")
 vim.keymap.set("i", "<C-k>", "<Up>")
 
-vim.keymap.set({ "n", "i" }, "<C-s>", "<Cmd> w <CR>")
+vim.keymap.set({ "n", "i" }, "<C-s>", "<Cmd> w <CR><ESC>")
 
 vim.keymap.set("n", ";", ":")
 -- split windows
