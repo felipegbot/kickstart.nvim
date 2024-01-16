@@ -274,6 +274,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set("i", "<C-b>", "<ESC>^i")
 vim.keymap.set("i", "<C-e>", "<End>")
 
+vim.keymap.set("n", "<leader>bdc", "<cmd>BufDel<CR>")
+vim.keymap.set("n", "<leader>bdo", "<cmd>BufDelOthers<CR>")
+vim.keymap.set("n", "<leader>bda", "<cmd>BufDelAll<CR>")
+
 vim.keymap.set("i", "<C-h>", "<Left>")
 vim.keymap.set("i", "<C-l>", "<Right>")
 vim.keymap.set("i", "<C-j>", "<Down>")
@@ -648,6 +652,7 @@ vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true, desc = "
 vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true, desc = "Go to lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true, desc = "Go to upper window" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true, desc = "Go to right window" })
+vim.keymap.set("n", "<leader>wd", "<C-w>q", { noremap = true, silent = true, desc = "Delete window" })
 
 -- Resize window using <ctrl> arrow keys
 vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { noremap = true, silent = true, desc = "Increase window height" })
